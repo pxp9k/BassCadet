@@ -1,0 +1,100 @@
+//
+//	Bass Cadet
+//	CHORD DATABASE FILE
+
+// Feel free to add your own chords!
+// The . repersents the root note of a chord.
+
+
+// 1 #### A Major Triad
+
+// This is a major chord triad - no symbol (. = root note)
+.;
+
+// Aliases (none here...)
+.;
+
+// Intervals in miditones
+4,7;
+
+
+// 2 #### Am - Minor Triad
+.m;
+
+.min,
+.-,
+.MIN,
+.mi,
+.MI;
+
+3,7;
+
+// 3 #### Aaug - Augmented Triad
+.aug;
+
+.aug;
+
+3,8;
+
+// 3a #### Adim - Diminished Triad
+.dim;
+
+.dim;
+
+3,8;
+
+
+// 4 #### A6
+.6;
+
+.6;
+
+4,9;
+
+// 5 #### A7
+.7;
+
+.7;
+
+4,7,10;
+
+// 6 #### Amaj7
+.maj7;
+
+.ma7,
+.MAJ7,
+.MA7;
+
+4,7,11;
+
+// 7 #### Amin7
+.min7;
+
+.mi7,
+.-7,
+.MIN7,
+.M7;
+
+3,7,10;
+
+// 8 #### Amin9
+.min9;
+
+.mi7,
+.-7,
+.MIN7,
+.M7;
+
+3,7,10;
+
+// 9 #### Am7b5
+.m7b5;
+
+.min7b5,
+.-7b5,
+.MIN7B5,
+.M7B5;
+
+3,6,10;
+
+
