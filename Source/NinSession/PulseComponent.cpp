@@ -23,6 +23,9 @@ void UPulseComponent::BeginPlay()
 
 	UE_LOG(LogTemp, Warning, TEXT("PulseC: BeginPlay() ... BPM = %f"), BPM);
 
+	// Set up our beat timer
+	GetWorld()->GetTimerManager().SetTimer(BeatTimerHandle, this, &UPulseComponent::OnBeat_Implementation, 0.25f, true);
+
 }
 
 
@@ -34,3 +37,7 @@ void UPulseComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActor
 	// ...
 }
 
+void UPulseComponent::OnBeat_Implementation()
+{
+	UE_LOG(LogTemp, Warning, TEXT("PulseC: Beat!"));
+}

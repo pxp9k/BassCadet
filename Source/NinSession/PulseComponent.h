@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "TimerManager.h"
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "PulseComponent.generated.h"
@@ -32,6 +33,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Pulse)
 	float Granularity = 48;
 
+	FTimerHandle BeatTimerHandle;
+
 
 protected:
 	// Called when the game starts
@@ -40,6 +43,7 @@ protected:
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
-		
+	
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Pulse")
+	void OnBeat();
 };
