@@ -9,7 +9,7 @@
 // Second line: MIDI intervals to make this chord (1=root, 2=sept, 3=min 3rd, 4=maj 3rd, etc...)
 
 // 1 #### A Major Triad
-.
+.,.maj
 1,4,7
 
 // 2 #### Am - Minor Triad

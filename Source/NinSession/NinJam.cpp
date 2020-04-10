@@ -143,8 +143,26 @@ void ANinJam::SetBPM(int NewBPM)
 TArray<int> ANinJam::GetChordMidiIntervals(FString ChordName)
 {
 	TArray<int> Intervals;
+	FString ChordNameNRM;	// normalized version of name of chord to find
 
-	UE_LOG(LogTemp, Warning, TEXT("NinJam: ChordNum() = %d"), Chord.Num());
+	UE_LOG(LogTemp, Warning, TEXT("NinJam: Number of chords in DB = %d"), Chord.Num());
+
+	ChordName.RemoveSpacesInline(); // remove spaces
+	ChordNameNRM = ".";				// root dot
+	ChordName = ChordName.Right(ChordName.Len() - 1);	// remove first char
+
+	// check if flat or sharp
+	if (ChordName.Left(1).Equals("b") || ChordName.Left(1).Equals("#")) {
+		
+		ChordNameNRM.Append(ChordName.Right(ChordName.Len() - 1));
+	}
+	else {
+		ChordNameNRM.Append(ChordName.Right(ChordName.Len()));
+	}
+
+	ChordNameNRM = ChordNameNRM.ToLower();				// make all lowercase
+
+	UE_LOG(LogTemp, Warning, TEXT("NinJam: Chord Searchstring = %s"), *ChordNameNRM);
 
 	for (int i = 0; i < Chord.Num(); i++) {
 
@@ -154,7 +172,7 @@ TArray<int> ANinJam::GetChordMidiIntervals(FString ChordName)
 
 			UE_LOG(LogTemp, Warning, TEXT("NinJam: NA = %s"), *NA);
 
-			if (ChordName.Equals(NA)) {
+			if (ChordNameNRM.Equals(NA)) {
 				
 				// Found the chord
 				return Chord[i].MidiIntervals;
