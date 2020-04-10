@@ -7,11 +7,24 @@
 #include "GameFramework/Actor.h"
 #include "NinJam.generated.h"
 
+USTRUCT(Blueprintable)
+struct FChordData{
+
+	GENERATED_BODY()
+	
+	UPROPERTY(BlueprintReadWrite)
+	TArray <FString> NameAliases;		// ptr on alias (names) array
+	
+	UPROPERTY(BlueprintReadWrite)
+	TArray <int> MidiIntervals;		// intervals in miditones relative to root
+
+};
+
 UCLASS()
 class NINSESSION_API ANinJam : public AActor
 {
 	GENERATED_BODY()
-	
+
 public:	
 	// Sets default values for this actor's properties
 	ANinJam();
@@ -48,6 +61,28 @@ public:
 
 	FTimerHandle BeatTimerHandle;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = NinJam)
+	bool bClick = true;
+
+	// *** CHORDS ***
+
+	// Chords TArray (holds all known chords and their invtervals)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = NinJam)
+	TArray<FChordData> Chord;
+
+	// Chord DB as a simple string array
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = NinJam)
+	TArray<FString> ChordDBTextArray;
+
+	// Load chord database from textfile in the app directory
+	UFUNCTION(BlueprintCallable, Category = "ChordDB")
+	TArray<FString> ReadChordDB();
+
+	// Scan a loaded chord textfile split into a TArray for chords and 
+	// return it as a Chord TMap (Key = chordname)
+	UFUNCTION(BlueprintCallable, Category = "ChordDB")
+	TArray<FChordData> ScanForChords(TArray<FString> ChordDBText);
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -61,4 +96,7 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "NinJam")
 	void SetBPM(int NewBPM);
+
+	UFUNCTION(BlueprintCallable, Category = "NinJam")
+	TArray<int> GetChordMidiIntervals(FString ChordName);
 };

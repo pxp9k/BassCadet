@@ -34,8 +34,6 @@ void UChordDBReader::TickComponent(float DeltaTime, ELevelTick TickType, FActorC
 
 TArray<FString> UChordDBReader::ReadChordDB()
 {
-	TArray<FString> ChordDBTextArray;
-
 	FString FileName = FPaths::ConvertRelativePathToFull(FPaths::GameDir()) + "/Chords.txt";
 	
 	if (!FPlatformFileManager::Get().GetPlatformFile().FileExists(*FileName))
@@ -71,10 +69,23 @@ TArray<FString> UChordDBReader::ScanForChords(TArray<FString> ChordDBText) {
 		else {
 			NLine = ScnLine;
 			if (NLine.Len() > 1) {
+
+				// store last char in line for later interpretation
+				FString LastChar = NLine.Right(1);
+
+				// remove last char
+				NLine = NLine.Left(NLine.Len() - 1);
+
 				ScannedChords.Add(NLine);
-				UE_LOG(LogTemp, Warning, TEXT("ScanChordFormula %s"), *NLine);
+
+				// terminate statement if last char = ';'
+				if (LastChar.Equals(";")) {
+					ScannedChords.Add(FString(";"));	// add terminal semicolon in a new row in the TArray so we can easily find it later
+				}
+
+				UE_LOG(LogTemp, Warning, TEXT("ScanChordFormula %s + (%s)"), *NLine, *LastChar);
 			}
 		}
 	}
-	return ScannedChords;
+	return ScannedChords;	// return TArray to blueprint
 }

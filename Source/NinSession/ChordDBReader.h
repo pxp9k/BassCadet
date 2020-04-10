@@ -13,15 +13,19 @@ class NINSESSION_API UChordDBReader : public UActorComponent
 {
 	GENERATED_BODY()
 
-public:	
+public:
 	// Sets default values for this component's properties
 	UChordDBReader();
+
+	// Chord DB as a simple string array
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = NinJam)
+	TArray<FString> ChordDBTextArray;
 
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
-public:	
+public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
