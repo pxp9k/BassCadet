@@ -181,3 +181,59 @@ TArray<int> ANinJam::GetChordMidiIntervals(FString ChordName)
 	}	
 	return Intervals;
 }
+
+FString ANinJam::MidiRoot2Note(int MidiNote, bool bFlat)
+{
+	if (bFlat) {
+		return *Midi2NameFlat.Find(MidiNote);
+	}
+	else
+	{
+		return *Midi2NameSharp.Find(MidiNote);
+	}
+}
+
+// return the Midi Root value (0 - 11) for a given chord		0 = A
+int ANinJam::GetMidiRoot(FString ChordName)
+{
+	FString NoteN;
+
+	// Check if second char is "b" or "#" (flat or sharp)
+	if (ChordName.Mid(1,1).Equals("b") || ChordName.Mid(1,1).Equals("#")) {
+		NoteN = ChordName.Left(2);
+	}
+	else
+	{
+		NoteN = ChordName.Left(1);
+	}
+
+	// Try sharp
+	if (Name2MidiSharp.Find(NoteN) != nullptr) {
+		return *Name2MidiSharp.Find(NoteN);		// found something
+	}
+
+	// Try flat
+	if (Name2MidiFlat.Find(NoteN) != nullptr) {
+		return *Name2MidiFlat.Find(NoteN);		// found it
+	}
+
+	return -1;	// invalid chordname
+}
+
+TArray<FString> ANinJam::GetChordNotes(FString ChordName)
+{
+	TArray<FString> ChordNotes;
+	
+	TArray<int> MidiIntervals = GetChordMidiIntervals(ChordName);
+	int MidiRoot = GetMidiRoot(ChordName);
+
+	// Add the notes
+	for (int i = 0; i < MidiIntervals.Num(); i++) {
+
+		int Transp = MidiRoot + MidiIntervals[i];
+		if (Transp > 11) Transp = Transp - 12;
+		ChordNotes.Add(MidiRoot2Note(Transp));			// transpose (add) it over root
+	}
+
+	return ChordNotes;
+}
