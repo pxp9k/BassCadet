@@ -1,7 +1,7 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
+// pxp9k 2020
 
 #include "NinJam.h"
+#include "Misc/Paths.h"
 
 // Sets default values
 ANinJam::ANinJam()
@@ -34,11 +34,15 @@ void ANinJam::Tick(float DeltaTime)
 // Chord (Reader) Functions
 TArray<FString> ANinJam::ReadChordDB()
 {
-	FString FileName = FPaths::ConvertRelativePathToFull(FPaths::GameDir()) + "/Chords.txt";
+	// FString FileName = FPaths::ConvertRelativePathToFull(FPaths::GameDir()) + "/Chords.txt";
+	// FString FileName = FPaths::ConvertRelativePathToFull(FPaths::ProjectDir()) + "Chords.txt";
+	FString FileName = FPaths::ConvertRelativePathToFull(FPaths::LaunchDir()) + "Chords.txt";
 
 	if (!FPlatformFileManager::Get().GetPlatformFile().FileExists(*FileName))
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 21.f, FColor::Red, TEXT("Chord File not found..."));
+		GEngine->AddOnScreenDebugMessage(-1, 21.f, FColor::Red, FileName);
+
 		return ChordDBTextArray;
 	}
 
